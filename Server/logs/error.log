@@ -1,20 +1,35 @@
-2025-02-05 10:54:31 [[31merror[39m] Unexpected error occured.
-2025-02-05 10:55:14 [[31merror[39m] Unexpected error occured.
-2025-02-05 10:57:33 [[31merror[39m] User lookup by ID failed.
-2025-02-05 10:57:33 [[31merror[39m] User creation failed.
-2025-02-05 11:02:15 [[31merror[39m] User lookup by ID failed.
-2025-02-05 11:02:15 [[31merror[39m] User creation failed.
-2025-02-06 03:22:47 [[31merror[39m] Unexpected error occured.
-2025-02-06 03:23:25 [[31merror[39m] User lookup by ID failed.
-2025-02-06 03:23:25 [[31merror[39m] User creation failed.
-2025-02-06 03:31:41 [[31merror[39m] User lookup by ID failed.
-2025-02-06 03:31:41 [[31merror[39m] User creation failed.
-2025-02-06 03:33:49 [[31merror[39m] User lookup by ID failed.
-2025-02-06 03:33:49 [[31merror[39m] User creation failed.
-2025-02-06 03:34:58 [[31merror[39m] Unexpected error occured.
-2025-02-06 03:39:59 [[31merror[39m] Validation Failed.
-2025-02-06 03:40:18 [[31merror[39m] Validation Failed.
-2025-02-06 03:41:03 [[31merror[39m] Unexpected error occured.
-2025-02-06 03:42:45 [[31merror[39m] Unexpected error occured.
-2025-02-06 03:43:35 [[31merror[39m] Unexpected error occured.
-2025-02-06 03:44:03 [[31merror[39m] Unexpected error occured.
+2025-02-07 19:16:48 [[31merror[39m] Validation Failed.
+2025-02-07 19:18:29 [[31merror[39m] Validation Failed.
+2025-02-07 19:19:19 [[31merror[39m] Failed to fetch the transaction.
+2025-02-07 19:19:41 [[31merror[39m] Failed to fetch the transaction.
+2025-02-07 19:20:01 [[31merror[39m] Failed to fetch the transaction.
+2025-02-07 19:20:16 [[31merror[39m] Failed to fetch the transaction.
+2025-02-07 19:20:50 [[31merror[39m] Unexpected error occured.
+2025-02-07 19:22:17 [[31merror[39m] Unexpected error occured.
+2025-02-07 19:23:36 [[31merror[39m] Unexpected error occured.
+2025-02-07 19:33:54 [[31merror[39m] Validation Failed.
+2025-02-07 19:34:57 [[31merror[39m] Validation Failed.
+2025-02-07 19:35:17 [[31merror[39m] Validation Failed.
+2025-02-07 19:35:42 [[31merror[39m] Transaction reversal failed.
+2025-02-07 19:36:05 [[31merror[39m] Transaction reversal failed.
+2025-02-07 19:36:26 [[31merror[39m] Transaction reversal failed.
+2025-02-07 19:37:02 [[31merror[39m] Transaction reversal failed.
+2025-02-07 19:37:22 [[31merror[39m] Transaction reversal failed.
+2025-02-07 19:38:30 [[31merror[39m] Transaction reversal failed.
+2025-02-07 19:42:32 [[31merror[39m] Transaction reversal failed.
+2025-02-07 19:42:40 [[31merror[39m] Transaction reversal failed.
+2025-02-07 19:45:34 [[31merror[39m] Transaction reversal failed.
+2025-02-07 19:46:39 [[31merror[39m] Transaction reversal failed.
+2025-02-07 19:46:50 [[31merror[39m] Transaction reversal failed.
+2025-02-07 19:48:45 [[31merror[39m] Transaction reversal failed.
+2025-02-07 19:49:03 [[31merror[39m] Transaction reversal failed.
+2025-02-07 19:50:50 [[31merror[39m] Transaction reversal failed.
+2025-02-07 19:51:11 [[31merror[39m] Transaction reversal failed.
+2025-02-07 19:59:03 [[31merror[39m] Failed to fetch the transaction.
+2025-02-07 19:59:16 [[31merror[39m] Failed to fetch the transaction.
+2025-02-07 19:59:48 [[31merror[39m] Failed to fetch the transaction.
+2025-02-07 20:05:52 [[31merror[39m] ReferenceError: totalUser is not defined
+    at Object.systemStatus (D:\Projects\PayFlow-Payment-Application\Server\models\admin.js:101:21)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async system (D:\Projects\PayFlow-Payment-Application\Server\controllers\adminController.js:82:24)
+2025-02-07 20:10:10 [[31merror[39m] Unexpected error occured.

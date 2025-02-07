@@ -15,7 +15,7 @@ class DatabaseError extends ApplicationError{
     }
 }
 
-class ValidationError extends DatabaseError{
+class ValidationError extends ApplicationError{
     constructor(message){
         super(message, 400, 'VALIDATION_ERROR');
     }

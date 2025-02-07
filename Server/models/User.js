@@ -72,8 +72,8 @@ const findUserById = async(userId)=>{
             is_admin AS isAdmin,
             status
             FROM user
-            WHERE user_id = :userId`,
-            { userId }
+            WHERE user_id = ?`,
+            [userId]
         );
 
         if(!row || row.length === 0){
@@ -82,7 +82,7 @@ const findUserById = async(userId)=>{
 
         return row[0];
     }catch(error){
-        logger.error('User lookup by ID failed.', {userId, error});
+        logger.error('User lookup by ID failed.');
         throw new DatabaseError('Failed to find user by ID', error);
     }
 }
@@ -91,7 +91,10 @@ const verifyUserPin = async(userId, pin)=>{
     try{
         const user = await findUserById(userId);
         const isValid = await bcrypt.compare(pin, user.pinHash);
-        return isValid;
+        if(!isValid){
+            return false;
+        }
+        return true;
     }catch(error){
         logger.error('PIN verification failed.', {userId, error});
         throw new AuthorizationError('Incorrect PIN.', error);
@@ -121,11 +124,12 @@ const updatePassword = async(userId, password)=>{
     try{
         const [result] = await db.execute(
             `UPDATE user
-            SET password_hash = :password
-            WHERE user_id = :userId`, {userId, password}
+            SET password_hash = ?
+            WHERE user_id = ?`, [password, userId]
         );
+        console.log(result);
         if(result.affectedRows === 0){
-            throw new ValidationError('Password not reset.');
+            throw new ValidationError('Password not change.');
         }
         return true;
     }catch(error){
@@ -138,9 +142,9 @@ const updateUserBalanceCredited = async (userId, amount)=>{
     try{
         const [result] = await db.execute(
             `UPDATE user
-            SET balance = balance + :amount 
-            WHERE user_id = :userId`,
-            { userId, amount }
+            SET balance = balance + ? 
+            WHERE user_id = ?`,
+            [ amount,userId ]
         );
 
         if(result.affectedRows === 0){
@@ -157,9 +161,9 @@ const updateUserBalanceDebited = async (userId, amount)=>{
     try{
         const [result] = await db.execute(
             `UPDATE user
-            SET balance = balance - :amount 
-            WHERE user_id = :userId`,
-            { userId, amount }
+            SET balance = balance - ? 
+            WHERE user_id = ?`,
+            [amount, userId ]
         );
 
         if(result.affectedRows === 0){
@@ -216,6 +220,33 @@ const getUserTransactions = async(userId, page = 1, limit = 10)=>{
     }
 }
 
+const updateAmount = async(userId, newBalance)=>{
+    const connection = await db.getConnection();
+    try{
+        await connection.beginTransaction();
+        if(!findUserById(userId))
+            return false;
+
+        
+        const [user] = await db.execute(
+            `UPDATE user SET balance = balance + ? WHERE user_id = ? `, [newBalance, userId]
+        );
+        if(user.affectedRows === 0){
+            throw new DatabaseError('Balance Update failed');
+        }
+        const [transaction] = await db.execute('INSERT INTO transactions (sender_id, receiver_id, amount) VALUES (?,?, ?)',[userId,"ADMIN",newBalance]);
+        if(transaction.affectedRows===0){
+            throw new DatabaseError('Transaction update failed.')
+        }
+
+        await connection.commit();
+        return true;
+    }catch(error){
+        console.log(error);
+        logger.error('Failed to update balance.',error);
+        throw new DatabaseError('Failed to update balance.',{userId,error});
+    }
+}
 module.exports = {
     createUser,
     findUserByEmail,
@@ -225,5 +256,6 @@ module.exports = {
     updateUserBalanceDebited,
     getUserTransactions,
     updatePassword,
-    updatePIN
+    updatePIN,
+    updateAmount
 };

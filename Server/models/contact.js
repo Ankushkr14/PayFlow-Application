@@ -1,31 +1,30 @@
 const db = require('../config/database');
 const { DatabaseError, ValidationError, InsufficientFundError } = require('../utils/error');
 const logger = require('../utils/logger');
+const { findUserById } = require('./User');
 
 const contactExists = async (userId, contactUserId)=>{
     const [[contact]] = await db.execute(
         `SELECT 1 FROM contacts 
-        WHERE user_id = :userId
-        AND contact_user_id = :contactUserId
-        LIMIT 1`, {userId, contactUserId}
+        WHERE user_id = ?
+        AND contact_user_id = ?
+        LIMIT 1`, [userId, contactUserId]
     );
     return !!contact;
 };
 
 const createContact = async (userId, contactUserId) => {
     try{
-        const [[user]] = await db.execute(
-            'SELECT user_id from user WHERE user_id = :contactUserId',{contactUserId}
-        );
+        const user = await findUserById(contactUserId);
         if(!user){
-            throw new ValidationError('user not found.');
+            throw new ValidationError('Contact Id  not found.');
         }
         if(await contactExists(userId, contactUserId)){
             throw new ValidationError('Contact already exists.');
         }
         const [result] = await db.execute(
             `INSERT INTO contacts(user_id, contact_user_id)
-            VALUES(:userId, :contactUserId)`, {userId, contactUserId}
+            VALUES(?, ?)`, [userId, contactUserId]
         );
         return {contactId: contactUserId};
     }catch(error){
@@ -41,11 +40,11 @@ const getAllContact = async(userId)=>{
     try{
         const [contacts] = await db.execute(
             `SELECT
-            u.user_id AS id
+            u.user_id AS id,
             u.name
             FROM contacts c 
-            JOIN users u ON c.contact_user_id = u.user_id
-            WHERE c.user_id = :userId`,{userId}
+            JOIN user u ON c.contact_user_id = u.user_id
+            WHERE c.user_id = ?`,[userId]
         );
 
         if(!contacts) return false;
@@ -62,25 +61,26 @@ const getContactDetails = async (userId, contactId)=>{
         if(!(await contactExists(userId, contactId))){
             throw new ValidationError("Not in your contact.")
         }
-        const [[contact]] = await db.execute(
-            `SELECT
-            u.user_id AS id,
-            u.name,
-            u.email,
-            (SELECT COUNT(*) FROM transactions
-            WHERE (sender_id = :userId AND receiver_id = :contactId)
-            OR (sender_id = :contactId AND receiver_id = :sender_id)
-            FROM user u
-            WHERE u.user_id = :contactId`,{userId, contactId}
+        const [contact] = await db.execute(
+            `SELECT 
+                t.id, 
+                t.sender_id, 
+                t.receiver_id, 
+                t.amount, 
+                t.created_at
+            FROM transactions t
+            WHERE 
+                (t.sender_id = ? AND t.receiver_id = ?)
+                OR 
+                (t.sender_id = ? AND t.receiver_id = ?)
+            ORDER BY t.created_at DESC`,[userId, contactId,userId,contactId]
         );
-
-        if(!contact) throw new ValidationError('Contact not found');
-
-        
+        if(contact.length===0) 
+            return false;
         return contact;
 
     }catch(error){
-        logger.error("Failed to get the contact details", {userId, contactId, error});
+        logger.error("Failed to get the contact details", error);
         throw new DatabaseError('Failed to get contact details', error);
 
     }
@@ -94,7 +94,7 @@ const removeContact = async(userId, contactId)=>{
         }
         const [result] = await db.execute(
             `DELETE FROM contacts
-            WHERE user_id = :userId AND contact_id = :contactId`,{userId,contactId}
+            WHERE user_id = ? AND contact_user_id = ?`,[userId,contactId]
         )
         if(result.affectedRows === 0){
             return false;
@@ -103,6 +103,7 @@ const removeContact = async(userId, contactId)=>{
         return true;
 
     }catch(error){
+        console.log(error);
         logger.error('Failed to remove contact.',{userId,contactId, error});
         throw new DatabaseError('Failed to remove contact', error);
     }

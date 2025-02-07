@@ -1,0 +1,11 @@
+2025-02-07 19:32:56 [[31merror[39m] Error: Route.post() requires a callback function but got a [object Undefined]
+    at Route.<computed> [as post] (D:\Projects\PayFlow-Payment-Application\Server\node_modules\express\lib\router\route.js:216:15)
+    at proto.<computed> [as post] (D:\Projects\PayFlow-Payment-Application\Server\node_modules\express\lib\router\index.js:521:19)
+    at Object.<anonymous> (D:\Projects\PayFlow-Payment-Application\Server\routes\adminRoutes.js:24:8)
+    at Module._compile (node:internal/modules/cjs/loader:1469:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1548:10)
+    at Module.load (node:internal/modules/cjs/loader:1288:32)
+    at Module._load (node:internal/modules/cjs/loader:1104:12)
+    at Module.require (node:internal/modules/cjs/loader:1311:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (D:\Projects\PayFlow-Payment-Application\Server\routes\index.js:5:21)

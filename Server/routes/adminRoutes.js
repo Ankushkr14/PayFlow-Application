@@ -5,24 +5,25 @@ const { authenticateJWT, isAdmin } = require('../middlewares/authMiddleware');
 const { validationRequest } = require('../middlewares/validationMiddleware');
 const { 
   adminSchema,
-  contactSchema,
-  commonSchema 
+  commonSchema, 
+  transactionSchema
 } = require('../middlewares/schemaMiddleware');
 
-router.use(authenticateJWT, isAdmin);
+router.use(authenticateJWT);
+router.use(isAdmin)
 
 
 router.get('/users',validationRequest(commonSchema.pagination),adminController.getUser);
 router.get('/users/:userId',validationRequest([commonSchema.idParam]),adminController.userDetail);
 router.delete('/users/:userId', validationRequest([commonSchema.idParam]), adminController.deleteUser);
 router.patch('/users/:userId/status', validationRequest([commonSchema.idParam, adminSchema.freezeAccount]), adminController.statusUpdate);
+router.post('/balance/:userId',validationRequest([commonSchema.idParam, commonSchema.balance]),adminController.updatebalance);
 
 router.get('/transactions', validationRequest(commonSchema.pagination), adminController.getAllTransactions);
-router.get('/transactions/:transactionId', validationRequest([commonSchema.idParam]), adminController.transactionById);
-router.post('/transactions/:transactionId/reverse',validationRequest([commonSchema.idParam, adminSchema.reverseTransaction]),adminController.transactionReverse);
+router.get('/transactions/:transactionId', validationRequest([transactionSchema.transactionId]), adminController.transactionById);
+router.post('/transactions/:transactionId/reverse',validationRequest([adminSchema.reverseBalance]),adminController.transactionReverse);
 
 router.get('/contacts/:userId',validationRequest([commonSchema.idParam]),adminController.getUserContacts);
-router.delete('/contacts/:userId/:contactId',validationRequest([commonSchema.idParam, contactSchema.create]),adminController.deleteUser);
 
 router.get('/system/status',adminController.system);
 

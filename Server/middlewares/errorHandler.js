@@ -10,7 +10,6 @@ module.exports = (err, req, res, next)=>{
     if(err instanceof ValidationError){
         statusCode = 400;
         errorCode = 'VALIDATION_ERROR';
-        message = err.message;
         details = err.error || {};
     }else if(err instanceof AuthenticationError){
         statusCode = 401;

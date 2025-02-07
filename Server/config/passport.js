@@ -9,7 +9,7 @@ const jwtOptions = {
 
 const jwtAuth = new JwtStrategy(jwtOptions, async(jwtPayLoad, done)=>{
     try{
-        const user = await User.findById(jwtPayLoad.userId);
+        const user = await User.findUserById(jwtPayLoad.userId);
         return user ? done(null,user) : done(null,false);
     }catch(error){
         return done(error,false);

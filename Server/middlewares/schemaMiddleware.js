@@ -31,14 +31,42 @@ module.exports = {
       body('password')
         .notEmpty()
         .withMessage('Password is required')
+    ],
+    pinChange: [
+      body('email')
+        .isEmail()
+        .normalizeEmail()
+        .withMessage('Invalid email format'),
+      body('password')
+        .notEmpty()
+        .withMessage('Password is required.'),
+      body('newPin')  
+        .isLength({ min: 4, max: 4 })  
+        .withMessage('PIN must be exactly 4 digits')
+        .isNumeric()  
+        .withMessage('Incorrect PIN format')
+    
+    ],
+    passwordChange: [
+      body('email')
+        .isEmail()
+        .normalizeEmail()
+        .withMessage("Invalid emage format"),
+      body('oldPassword')
+        .notEmpty()
+        .withMessage('Password is required'),
+      body('newPassword')
+        .notEmpty()
+        .withMessage('Password is required')
     ]
   },
+
 
   // Transaction schemas
   transactionSchema: {
     sendMoney: [
       body('receiverId')
-        .isUUID(4)
+        .isUUID()
         .withMessage('Invalid receiver ID format'),
       body('amount')
         .isFloat({ min: 1 })
@@ -48,6 +76,11 @@ module.exports = {
         .withMessage('PIN must be exactly 4 digits')
         .isNumeric()
         .withMessage('PIN must contain only numbers')
+    ],
+    transactionId: [
+      param('transactionId')
+        .notEmpty()
+        .withMessage('Transaction Id is not available in params')
     ]
   },
 
@@ -55,7 +88,7 @@ module.exports = {
   contactSchema: {
     create: [
       body('contactId')
-        .isUUID(4)
+        .isUUID(1)
         .withMessage('Invalid contact ID format')
     ],
     sendMoney: [
@@ -83,9 +116,14 @@ module.exports = {
         .withMessage('Limit must be between 1 and 100')
     ],
     idParam: [
-      param('id')
-        .isUUID(4)
+      param('userId')
+        .isUUID()
         .withMessage('Invalid ID format')
+    ],
+    balance: [
+      body('balance')
+        .isNumeric()
+        .withMessage("Balance should be numberic.")
     ]
   },
 
@@ -93,16 +131,13 @@ module.exports = {
   adminSchema: {
     freezeAccount: [
       body('status')
-        .isIn(['active', 'frozen'])
+        .isIn(['active', 'freeze'])
         .withMessage('Status must be either active or frozen')
     ],
-    reverseTransaction: [
-      body('reason')
-        .optional()
-        .isString()
-        .withMessage('Reason must be a string')
-        .isLength({ max: 255 })
-        .withMessage('Reason must be less than 255 characters')
+    reverseBalance: [
+      param('transactionId')
+        .notEmpty()
+        .withMessage('Transaction ID is needed')
     ]
   }
 };

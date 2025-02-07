@@ -3,7 +3,7 @@ const Moneytransfer = require('../services/transactionService');
 
 const sendMoney = async (req, res, next)=>{
     try{
-        const senderId = req.user.user_id;
+        const senderId = req.user.userId;
         const {receiverId, amount, pin} = req.body;
         const result = await Moneytransfer(senderId, receiverId, amount, pin);
         res.status(200).json({

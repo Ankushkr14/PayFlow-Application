@@ -34,8 +34,8 @@ const login = async(req, res, next)=>{
         const { email, password } = req.body;
         const user = await findUserByEmail(email);
         if(!user) throw new AuthenticationError('Incorrect email address.');
-        const hashPassword = await bcrypt.hash(password,10);
-        if(!(await bcrypt.compare(hashPassword, user.password))){
+        const isValid = await bcrypt.compare(password, user.passwordHash);
+        if(!isValid){
             throw new AuthenticationError('Password Incorrect.');
         }
         const token = generateToken(user);

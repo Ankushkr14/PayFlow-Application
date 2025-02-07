@@ -1,0 +1,33 @@
+2025-02-07 18:59:14 [[31merror[39m] DatabaseError: Failed to find user by ID
+    at findUserById (D:\Projects\PayFlow-Payment-Application\Server\models\User.js:86:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2025-02-07 19:00:04 [[31merror[39m] DatabaseError: Failed to find user by ID
+    at findUserById (D:\Projects\PayFlow-Payment-Application\Server\models\User.js:86:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2025-02-07 19:01:03 [[31merror[39m] DatabaseError: Failed to find user by ID
+    at findUserById (D:\Projects\PayFlow-Payment-Application\Server\models\User.js:86:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2025-02-07 19:01:25 [[31merror[39m] DatabaseError: Failed to find user by ID
+    at findUserById (D:\Projects\PayFlow-Payment-Application\Server\models\User.js:86:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2025-02-07 19:01:56 [[31merror[39m] DatabaseError: Failed to find user by ID
+    at findUserById (D:\Projects\PayFlow-Payment-Application\Server\models\User.js:86:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2025-02-07 19:02:15 [[31merror[39m] DatabaseError: Failed to find user by ID
+    at findUserById (D:\Projects\PayFlow-Payment-Application\Server\models\User.js:86:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2025-02-07 19:03:21 [[31merror[39m] DatabaseError: Failed to find user by ID
+    at findUserById (D:\Projects\PayFlow-Payment-Application\Server\models\User.js:86:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2025-02-07 19:03:35 [[31merror[39m] DatabaseError: Failed to find user by ID
+    at findUserById (D:\Projects\PayFlow-Payment-Application\Server\models\User.js:86:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2025-02-07 19:03:55 [[31merror[39m] DatabaseError: Failed to find user by ID
+    at findUserById (D:\Projects\PayFlow-Payment-Application\Server\models\User.js:86:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2025-02-07 19:04:25 [[31merror[39m] DatabaseError: Failed to find user by ID
+    at findUserById (D:\Projects\PayFlow-Payment-Application\Server\models\User.js:86:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2025-02-07 19:04:38 [[31merror[39m] DatabaseError: Failed to find user by ID
+    at findUserById (D:\Projects\PayFlow-Payment-Application\Server\models\User.js:86:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)

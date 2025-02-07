@@ -1,17 +1,16 @@
 const admin = require("../models/admin");
 const { getAllContact } = require("../models/contact");
 const { reverseTransaction, getTransaction, getTransactionById } = require("../models/transactions");
+const { findUserById, updateAmount } = require("../models/User");
 
 
 const getUser = async(req,res,next)=>{
     try{
-        const {page = 1, limit = 10} = req.query;
-        const result = await admin.getAllUsers(parseInt(page), parseInt(limit));
+        const result = await admin.getAllUsers();
         res.status(200).json({
             success: true,
             message: 'All user details fetched successfully.',
             data: result.users,
-            pagination: result.pagination
         })
     }catch(error){
         next(error);
@@ -42,9 +41,10 @@ const statusUpdate = async(req, res, next)=>{
     try{
         const userId = req.params.userId;
         const {status} = req.body;
+        
         const result = await admin.updateUserStatus(userId,status);
         if(!result){
-            res.status(400).json({
+            return res.status(400).json({
                 success: false,
                 message: 'Failed to update status'
             })
@@ -63,7 +63,7 @@ const transactionReverse = async (req, res, next)=>{
         const transactionId = req.params.transactionId;
         const transactionUpdate = await reverseTransaction(transactionId);
         if(!transactionUpdate){
-            res.status(400).json({
+            return res.status(400).json({
                 success: true,
                 message: "No transaction found."
             })
@@ -99,7 +99,6 @@ const system = async(req, res, next)=>{
 const deleteUser = async (req,res,next)=>{
     try{
         const userId = req.params.userId;
-        console.log(userId)
         const result = await admin.removeUser(userId);
         if(!result){
             res.status(400).json({
@@ -141,7 +140,7 @@ const transactionById = async(req, res, next)=>{
         const transactionId = req.params.transactionId;
         const detail = await getTransactionById(transactionId);
         if(!detail){
-            res.status(400).json({
+            return res.status(400).json({
                 success: false,
                 message: 'No transaction detail OR wrong transaction id.'
             })
@@ -175,6 +174,32 @@ const getUserContacts = async (req, res, next)=>{
     }
 }
 
+const updatebalance = async(req, res, next)=>{
+    try{
+        const userId = req.params.userId
+        const { balance } = req.body;
+        const newBalance = Number(balance);
+        if(newBalance<=0){
+            return res.status(400).json({
+                success: false, 
+                message: 'Amount must be greater than 0.'
+            })
+        }
+        const result = await updateAmount(userId, newBalance);
+        if(!result){
+            return res.status(400).json({
+                success: false,
+                message: "Failed to update balance."
+            })
+        }
+        res.status(201).json({
+            success: true,
+            message: "Balance added successfully."
+        })
+    }catch(error){
+        next(error);
+    }
+}
 
 module.exports = {
     getUser,
@@ -185,5 +210,6 @@ module.exports = {
     deleteUser,
     getAllTransactions,
     transactionById,
-    getUserContacts
+    getUserContacts,
+    updatebalance
 }
